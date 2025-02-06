@@ -3,26 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- tailwind cdn -->
+
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <!-- flowbite js cdn -->
+
     <link
       href="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.css"
       rel="stylesheet"
     />
-    <!-- <script src="./script/main.js"></script> -->
 
     <title>Notes App</title>
   </head>
   <body class="bg-slate-400 font-body">
+    <div
+      node-create-form
+      class="z-10 fixed w-screen h-screen bg-slate-700 opacity-80 hidden"
+    ></div>
 
-    <div node-create-form class="z-10 fixed w-screen h-screen bg-slate-700 opacity-80 hidden"></div>
-    <!-- Hidden create category form -->
-    <form node-create-form id="formCreateCategory" class="fixed top-5 w-screen z-10 hidden">
+    <form
+      node-create-form
+      id="formCreateCategory"
+      class="fixed top-5 w-screen z-10 hidden"
+    >
       <div class="bg-slate-300 w-10/12 sm:w-1/2 mx-auto p-2 rounded-md">
         <div class="flex justify-between">
           <h1 class="text-lg font-semibold">Create Category</h1>
-          <button type="button" class="cursor-pointer rounded-full px-2 bg-red-600 hover:bg-red-800 font-medium text-slate-200 mr-2" data-action="cancel">X</button>
+          <button
+            type="button"
+            class="cursor-pointer rounded-full px-2 bg-red-600 hover:bg-red-800 font-medium text-slate-200 mr-2"
+            data-action="cancel"
+          >
+            X
+          </button>
         </div>
         <input
           type="text"
@@ -30,8 +41,14 @@
           class="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
         />
         <div class="flex mt-2">
-            <input type="text" name="categoryIcon" id="categoryIcon" placeholder="Category icon" class="w-[40%] rounded-md border-2 border-blue-500">
-            <!-- <label for="categoryIcon">Category Icon</label> -->
+          <input
+            type="text"
+            name="categoryIcon"
+            id="categoryIcon"
+            placeholder="Category icon"
+            class="w-[40%] rounded-md border-2 border-blue-500"
+          />
+
           <button
             type="submit"
             class="w-full cursor-pointer ml-2 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
@@ -43,7 +60,6 @@
     </form>
 
     <main class="p-2">
-      <!-- Aside sidebar -->
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
@@ -58,8 +74,7 @@
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
           inert
-          >
-          <!-- aria-hidden="true" -->
+        >
           <path
             clip-rule="evenodd"
             fill-rule="evenodd"
@@ -68,7 +83,6 @@
         </svg>
       </button>
 
-      <!-- Aside flowbite -->
       <aside
         id="default-sidebar"
         class="p-2 fixed top-0 left-0 z-0 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
@@ -92,9 +106,10 @@
                 >
               </a>
             </li>
-            <!-- Tombol -->
+
             <button
-              data-action="create" id="btnCreateCategory"
+              data-action="create"
+              id="btnCreateCategory"
               class="w-full p-2 text-left cursor-pointer text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 group"
             >
               + Create new category
@@ -103,15 +118,12 @@
         </div>
       </aside>
 
-      <!-- Main Content -->
       <section class="p-4 sm:ml-72 sm:mr-10">
-        <!-- Header -->
         <div>
           <h1 class="text-2xl font-medium">Hi kevin, welcome back!</h1>
           <p>Today, Sat 25 January 2025</p>
         </div>
 
-        <!-- Tasks -->
         <div class="mt-5 text-lg">
           <div class="pt-4">
             <h2 class="ml-4 bg-green-300 inline py-1 px-2 rounded-md">Do</h2>
@@ -180,37 +192,20 @@
           </div>
         </div>
 
-        <!-- Btn create form -->
-        <div class="flex flex-col">
-          <!-- Tombol untuk menampilkan form -->
-          <button
-            id="showFormButton"
-            class="mx-auto flex justify-between cursor-pointer min-w-full sm:min-w-96 mt-6 rounded-lg bg-zinc-900 text-white p-3 hover:bg-zinc-700"
-          >
-            + Create new task
-            <span class="px-1 border-2 border-white rounded-full">N</span>
-          </button>
-
-          <!-- Form (awalnya tersembunyi) -->
+        <div class="flex flex-col relative items-center">
           <form
+            action=""
             id="taskForm"
-            class="mt-5 mx-auto w-full max-w-96 bg-white p-6 rounded-lg shadow-md transform transition-all duration-300 ease-in-out opacity-0 -translate-y-5"
+            class="absolute bottom-14 mt-5 mx-auto w-full max-w-96 bg-white p-6 rounded-lg shadow-md transform transition-all duration-300 ease-in-out opacity-0 -translate-y-5"
           >
-            <!-- Input Judul -->
-            <div class="mb-4">
-              <label for="title" class="block text-sm font-medium text-gray-700"
-                >Judul</label
-              >
+            <div>
+              <label for="title">Judul</label>
               <input
                 type="text"
                 id="inputTitle"
-                name="title"
-                placeholder="Masukkan judul task"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Masukan judul task"
               />
             </div>
-
-            <!-- Dropdown -->
             <div class="mb-4">
               <label
                 for="category"
@@ -229,10 +224,7 @@
               </select>
             </div>
 
-            <!-- Bagian -->
-
             <div class="flex mb-2">
-              <!-- Container untuk radio "Do" -->
               <label
                 for="inputDo1"
                 class="flex items-center rounded-md border-gray-300 focus:ring-blue-500 p-2.5 bg-blue-200 w-1/2 cursor-pointer"
@@ -246,7 +238,6 @@
                 <span class="pl-2 w-full">Do</span>
               </label>
 
-              <!-- Container untuk radio "Schedule" -->
               <label
                 for="inputDo2"
                 class="flex items-center rounded-md border-gray-300 focus:ring-blue-500 p-2.5 bg-yellow-200 w-1/2 cursor-pointer ml-2"
@@ -261,7 +252,6 @@
               </label>
             </div>
 
-            <!-- Tombol Submit -->
             <button
               type="submit"
               id="submitButton"
@@ -270,12 +260,18 @@
               Simpan Task
             </button>
           </form>
+          <button
+            id="showFormButton"
+            class="mx-auto flex justify-between cursor-pointer min-w-full sm:min-w-96 mt-6 rounded-lg bg-zinc-900 text-white p-3 hover:bg-zinc-800"
+          >
+            + Create new task
+            <span class="px-1 border-2 border-white rounded-full">N</span>
+          </button>
         </div>
       </section>
     </main>
-    <!-- tailwind js cdn -->
+
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
     <script src="./script/main.js"></script>
-
   </body>
 </html>
