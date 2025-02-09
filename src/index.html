@@ -34,13 +34,14 @@
   <body class="bg-slate-400 font-body">
     <div
       node-create-form
-      class="z-10 fixed w-screen h-screen bg-slate-700 opacity-80 hidden"
+      class="z-20 fixed w-screen h-screen bg-slate-700 opacity-80 hidden"
+      data-action="cancel"
     ></div>
 
     <form
       node-create-form
       id="formCreateCategory"
-      class="fixed top-5 w-screen z-10 hidden"
+      class="fixed top-5 w-screen z-30 hidden"
     >
       <div class="bg-slate-300 w-10/12 sm:w-1/2 mx-auto p-2 rounded-md">
         <div class="flex justify-between">
@@ -54,6 +55,7 @@
           </button>
         </div>
         <input
+          id="input-category-title"
           type="text"
           placeholder="Enter category name"
           class="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -61,13 +63,13 @@
         <div class="flex mt-2">
           <input
             type="text"
-            name="categoryIcon"
-            id="categoryIcon"
-            placeholder="Category icon"
-            class="w-[40%] rounded-md border-2 border-blue-500"
+            id="input-category-icon"
+            placeholder="Icon"
+            class="w-[40%] p-2 rounded-md border-2 border-blue-500"
           />
 
           <button
+            id="btn-submit-category"
             type="submit"
             class="w-full cursor-pointer ml-2 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
@@ -91,7 +93,7 @@
         >
           <h1 class="text-3xl font-semibold">Notes App</h1>
           <ul class="pt-2 space-y-2 font-medium">
-            <li>
+            <li id="list-categories">
               <a
                 href="#"
                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -116,34 +118,46 @@
         </div>
       </aside>
 
-      <section class="p-4 sm:ml-72 sm:mr-10" id="main-container">
+      <section class="p-4 sm:ml-80 sm:mr-14" id="main-container">
         <div>
           <h1 class="text-2xl font-medium">Hi kevin, welcome back!</h1>
           <p>Today, Sat 25 January 2025</p>
         </div>
 
         <div class="mt-5 text-lg">
-          <div class="pt-4" id="doContainer">
-            <h2 class="ml-4 bg-green-300 inline py-1 px-2 rounded-md">Do</h2>
+          <div class="pt-4" id="do-container">
+            <h2 class="bg-green-300 inline py-1 px-2 rounded-md">Do</h2>
             <!-- <p class="bg-slate-200 p-1 rounded-md text-sm mt-2">No task</p> -->
-<!--             <div class="mt-3 flex w-full bg-slate-200 p-2 rounded-md">
+            <div
+              class="mt-3 flex w-full bg-slate-200 p-2 rounded-md items-center group"
+            >
               <input
                 type="checkbox"
                 name=""
                 id=""
-                class="w-6.5 h-6.5 rounded-md cursor-pointer border-none"
+                class="w-6 h-6 border-2 border-blue-500 cursor-pointer rounded-sm bg-white"
               />
+
               <label for="" class="ml-2 flex-1">tester <span>🎓</span></label>
-              <div class="flex items-end">
-                <a href="">🚮</a>
-                <a href="">🚮</a>
+              <div class="flex items-end gap-2">
+                <a
+                  href=""
+                  class="px-2 bg-gray-400 hover:bg-gray-500 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-75"
+                  >Open</a
+                >
+                <a
+                  href=""
+                  class="bg-yellow-300 hover:bg-yellow-500 p-1 rounded-md"
+                  ><i data-feather="edit"></i
+                ></a>
+                <a href="" class="bg-red-300 hover:bg-red-500 p-1 rounded-md"
+                  ><i data-feather="trash"></i
+                ></a>
               </div>
-            </div> -->
+            </div>
           </div>
-          <div class="pt-4">
-            <h2 class="ml-4 bg-yellow-200 inline py-1 px-2 rounded-md">
-              Schedule
-            </h2>
+          <div class="pt-4" id="schedule-container">
+            <h2 class="bg-yellow-200 inline py-1 px-2 rounded-md">Schedule</h2>
             <div class="mt-3 flex w-full bg-slate-200 p-2 rounded-md">
               <input
                 type="checkbox"
@@ -159,9 +173,7 @@
             </div>
           </div>
           <div class="pt-4">
-            <h2 class="ml-4 bg-orange-200 inline py-1 px-2 rounded-md">
-              Deleted
-            </h2>
+            <h2 class="bg-orange-200 inline py-1 px-2 rounded-md">Deleted</h2>
             <div class="mt-3 flex w-full bg-slate-200 p-2 rounded-md">
               <input
                 type="checkbox"
