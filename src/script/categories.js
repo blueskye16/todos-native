@@ -1,12 +1,19 @@
 // Category
-import generateId from "./utils/generate_id.js";
-import { getUiElement, hideCategoryForm } from "./ui.js";
+import generateId from './utils/generate_id.js';
+import { getUiElement, hideCategoryForm } from './ui.js';
 
-const categories = [{
-  icon: '👨‍🎓',
-  id: 1633830000000,
-  title: 'Study',
-}];
+const categories = [
+  {
+    icon: '📃',
+    id: 1633830000000,
+    title: 'No List',
+  },
+  {
+    icon: '👨',
+    id: 1633830000002,
+    title: 'Learn',
+  },
+];
 
 function addCategory() {
   const { formCreateCategory, overlay } = getUiElement();
@@ -22,9 +29,11 @@ function addCategory() {
 
   categories.push(categoryObject);
   console.log(categories);
-  renderSubmittedCategory(categories);
+  renderCategories(categories);
+
+  title.value = '';
+  icon.value = '';
   hideCategoryForm(overlay, formCreateCategory);
-  updateCategoryToTask(categories);
 }
 
 function generateCategoryObject(id, title, icon) {
@@ -35,7 +44,7 @@ function generateCategoryObject(id, title, icon) {
   };
 }
 
-function renderSubmittedCategory(categoryList = categories) {
+function renderCategories(categoryList = categories) {
   const categoriesContainer = document.getElementById('list-categories');
 
   categoriesContainer.innerText = '';
@@ -44,6 +53,8 @@ function renderSubmittedCategory(categoryList = categories) {
     const categoryElement = makeCategory(categoriesItem);
     categoriesContainer.append(categoryElement);
   }
+
+  updateCategories(categoryList);
 }
 
 function makeCategory(categoryObject) {
@@ -96,7 +107,7 @@ function makeCategory(categoryObject) {
   return container;
 }
 
-function updateCategoryToTask(categories) {
+function updateCategories(categories) {
   const categoryContainer = document.getElementById('inputCategory');
 
   categoryContainer.innerText = '';
@@ -109,4 +120,26 @@ function updateCategoryToTask(categories) {
   }
 }
 
-export { addCategory, renderSubmittedCategory };
+function checkEmptyCategories(categories) {
+  const categoryContainer = document.getElementById('list-categories');
+
+  if (categories.length === 0) {
+    const emptyMessage = document.createElement('p');
+    emptyMessage.innerText = 'No category';
+    emptyMessage.classList.add(
+      'bg-slate-200',
+      'p-1',
+      'rounded-md',
+      'text-sm',
+      'mt-2'
+    );
+    categoryContainer.append(emptyMessage);
+  } else {
+    const emptyMessage = categoryContainer.querySelector('p');
+    if (emptyMessage) {
+      emptyMessage.remove();
+    }
+  }
+}
+
+export { addCategory, renderCategories, categories, checkEmptyCategories };

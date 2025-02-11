@@ -1,8 +1,24 @@
 // Tasks
-import generateId from "./utils/generate_id.js";
-import { clearTaskInputs } from "./ui.js";
+import generateId from './utils/generate_id.js';
+import { closeInputTaskForm, getUiElement } from './ui.js';
+import { categories } from './categories.js';
 
-const tasks = [];
+const RENDER_EVENT = 'render-tasks';
+
+const tasks = [
+  {
+    id: 1633830000001,
+    title: 'Learn JavaScript',
+    category: 'Study',
+    taskSection: 'task-do-section',
+  },
+  {
+    id: 1633830000001,
+    title: 'Learn Data Analyst',
+    category: 'Learn',
+    taskSection: 'task-schedule-section',
+  },
+];
 
 function addTask() {
   const title = document.getElementById('inputTitle');
@@ -23,7 +39,7 @@ function addTask() {
   tasks.push(taskObject);
   console.log(tasks);
   clearTaskInputs();
-  // document.dispatchEvent(RENDER_EVENT);
+  document.dispatchEvent(new Event(RENDER_EVENT));
 }
 
 function generateTaskObject(id, title, category, taskSection) {
@@ -38,24 +54,26 @@ function generateTaskObject(id, title, category, taskSection) {
 function renderTasks(tasklist = tasks) {
   const { doContainer, scheduleContainer } = getUiElement();
 
-  doContainer.innerText = '';
-  scheduleContainer.innerText = '';
+  // Kosongkan container tanpa menghapus elemen <h2>
+  const doHeader = doContainer.querySelector('h2');
+  const scheduleHeader = scheduleContainer.querySelector('h2');
+
+  doContainer.innerHTML = '';
+  scheduleContainer.innerHTML = '';
+
+  doContainer.appendChild(doHeader);
+  scheduleContainer.appendChild(scheduleHeader);
 
   for (const taskItem of tasklist) {
     const taskElement = makeTask(taskItem);
-    if (taskElement.selectedTaskSection == 'task-do-section') {
-      doContainer.append(taskElement);
-    } else
-      (error) => {
-        console.log('error: ', error);
-      };
-
-    if (taskElement.selectedTaskSection == 'task-schedule-section') {
-      scheduleContainer.append(taskElement);
-    } else
-      (error) => {
-        console.log('error: ', error);
-      };
+    if (taskItem.taskSection == 'task-do-section') {
+      doContainer.appendChild(taskElement);
+    } else if (taskItem.taskSection == 'task-schedule-section') {
+      scheduleContainer.appendChild(taskElement);
+    } else {
+      console.log('error: Invalid task section');
+    }
+    feather.replace();
   }
 }
 
@@ -134,6 +152,28 @@ function makeTask(taskObject) {
   btnTaskContainer.append(btnOpenTask, btnEditTask, btnDeleteTask);
 
   taskContainer.append(btnTaskContainer);
+
+  return taskContainer;
 }
 
-export { addTask, renderTasks };
+function clearTaskInputs() {
+  const formContainer = document.getElementById('taskForm');
+  document.getElementById('inputTitle').value = '';
+  const inputCategory = document.getElementById('inputCategory');
+  inputCategory.value = categories[0].icon + ' ' + categories[0].title;
+  
+  // document.getElementById('inputCategory').value = categories[0].icon + ' ' + categories[0].title;
+  const taskSection = document.querySelectorAll(
+    'input[name="input-task-section"]'
+  );
+
+  taskSection.forEach((radio) => (radio.checked = false));
+  closeInputTaskForm(formContainer);
+}
+
+document.addEventListener(RENDER_EVENT, function () {
+  console.log(tasks);
+  renderTasks();
+});
+
+export { addTask, renderTasks, RENDER_EVENT };

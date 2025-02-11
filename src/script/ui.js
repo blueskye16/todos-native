@@ -4,12 +4,15 @@ export function getUiElement() {
     // UI
     sidebar: document.getElementById('sidebar'),
     btnBurger: document.getElementById('btnBurger'),
-    doContainer: document.getElementById('do-container'),
-    scheduleContainer: document.getElementById('schedule-container'),
 
     // Category
     formCreateCategory: document.getElementById('formCreateCategory'),
     overlay: document.querySelector('[node-create-form]'),
+
+    // Task
+    doContainer: document.getElementById('do-container'),
+    scheduleContainer: document.getElementById('schedule-container'),
+    deletedContainer: document.getElementById('deleted-container'),
   };
 }
 
@@ -28,7 +31,6 @@ export function sidebarHandler() {
   });
 }
 
-
 export function showCategoryForm(overlay, form) {
   overlay.classList.remove('hidden');
   form.classList.remove('hidden');
@@ -41,14 +43,18 @@ export function hideCategoryForm(overlay, form) {
 
 export function displayCreateCategoryForm() {
   const { formCreateCategory, overlay } = getUiElement();
-  // const formCreateCategory = document.getElementById('formCreateCategory');
-  // const overlay = document.querySelector('[node-create-form]');
 
   document.addEventListener('click', (event) => {
     const action = event.target.dataset.action;
     if (action === 'create') {
       showCategoryForm(overlay, formCreateCategory);
     } else if (action === 'cancel') {
+      hideCategoryForm(overlay, formCreateCategory);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
       hideCategoryForm(overlay, formCreateCategory);
     }
   });
@@ -78,54 +84,48 @@ export function displayCreateTaskForm() {
     }
   });
 
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+      closeInputTaskForm(form);
+    }
+  });
+
   form.addEventListener('click', function (event) {
     event.stopPropagation();
   });
 }
 
+function checkForEmptyTask(checkElement, elementContainer) {
+  const emptyTaskMessage = elementContainer.querySelector('.no-task-message');
+  if (checkElement.length === 0) {
+    if (!emptyTaskMessage) {
+      const emptyMessage = document.createElement('p');
+      const emptyMessageClass = [
+        'bg-slate-200',
+        'p-1',
+        'rounded-md',
+        'text-sm',
+        'mt-2',
+        'no-task-message',
+      ];
+      emptyMessage.innerText = 'No task';
+      emptyMessage.classList.add(...emptyMessageClass);
+      elementContainer.append(emptyMessage);
+    }
+  } else if (emptyTaskMessage) {
+    emptyTaskMessage.remove();
+  }
+}
+
 export function checkTaskContainer() {
-  const { doContainer, scheduleContainer } = getUiElement();
+  const { doContainer, scheduleContainer, deletedContainer } = getUiElement();
   const taskDoContainer = doContainer.querySelectorAll('div');
   const taskScheduleContainer = scheduleContainer.querySelectorAll('div');
-  let emptyTaskMessage = doContainer.querySelector('.no-task-message');
+  const taskDeletedContainer = scheduleContainer.querySelectorAll('div');
 
-  if (taskDoContainer.length === 0) {
-    const emptyMessage = document.createElement('p');
-    const emptyMessageClass = [
-      'bg-slate-200',
-      'p-1',
-      'rounded-md',
-      'text-sm',
-      'mt-2',
-      'no-task-message',
-    ];
-    emptyMessage.innerText = 'No task';
-    emptyMessage.classList.add(...emptyMessageClass);
-    doContainer.append(emptyMessage);
-  } else {
-    if (emptyTaskMessage) {
-      emptyTaskMessage.remove();
-    }
-  }
-
-  if (taskScheduleContainer.length === 0) {
-    const emptyMessage = document.createElement('p');
-    const emptyMessageClass = [
-      'bg-slate-200',
-      'p-1',
-      'rounded-md',
-      'text-sm',
-      'mt-2',
-      'no-task-message',
-    ];
-    emptyMessage.innerText = 'No task';
-    emptyMessage.classList.add(...emptyMessageClass);
-    scheduleContainer.append(emptyMessage);
-  } else {
-    if (emptyTaskMessage) {
-      emptyTaskMessage.remove();
-    }
-  }
+  checkForEmptyTask(taskDoContainer, doContainer);
+  checkForEmptyTask(taskScheduleContainer, scheduleContainer);
+  checkForEmptyTask(taskDeletedContainer, deletedContainer);
 }
 
 export function closeInputTaskForm(element) {
@@ -134,16 +134,4 @@ export function closeInputTaskForm(element) {
   setTimeout(() => {
     element.style.display = 'none'; // Sembunyikan form setelah animasi
   }, 300);
-}
-
-export function clearTaskInputs() {
-  const formContainer = document.getElementById('taskForm');
-  document.getElementById('inputTitle').value = '';
-  document.getElementById('inputCategory').value = '';
-  const taskSection = document.querySelectorAll(
-    'input[name="input-task-section"]'
-  );
-
-  taskSection.forEach((radio) => (radio.checked = false));
-  closeInputTaskForm(formContainer);
 }
