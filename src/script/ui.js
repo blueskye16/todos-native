@@ -6,6 +6,10 @@ export function getUiElement() {
     btnBurger: document.getElementById('btnBurger'),
     doContainer: document.getElementById('do-container'),
     scheduleContainer: document.getElementById('schedule-container'),
+
+    // Category
+    formCreateCategory: document.getElementById('formCreateCategory'),
+    overlay: document.querySelector('[node-create-form]'),
   };
 }
 
@@ -17,32 +21,35 @@ export function sidebarHandler() {
     btnBurger.classList.remove('hidden');
     sidebar.classList.remove('translate-x-0');
   });
-  btnBurger.addEventListener('click', () => {
+  btnBurger.addEventListener('click', (event) => {
+    event.stopPropagation();
     btnBurger.classList.add('hidden');
     sidebar.classList.add('translate-x-0');
   });
 }
 
-function showForm(overlay, form) {
+
+export function showCategoryForm(overlay, form) {
   overlay.classList.remove('hidden');
   form.classList.remove('hidden');
 }
 
-function hideForm(overlay, form) {
+export function hideCategoryForm(overlay, form) {
   overlay.classList.add('hidden');
   form.classList.add('hidden');
 }
 
 export function displayCreateCategoryForm() {
-  const formCreateCategory = document.getElementById('formCreateCategory');
-  const overlay = document.querySelector('[node-create-form]');
+  const { formCreateCategory, overlay } = getUiElement();
+  // const formCreateCategory = document.getElementById('formCreateCategory');
+  // const overlay = document.querySelector('[node-create-form]');
 
   document.addEventListener('click', (event) => {
     const action = event.target.dataset.action;
     if (action === 'create') {
-      showForm(overlay, formCreateCategory);
+      showCategoryForm(overlay, formCreateCategory);
     } else if (action === 'cancel') {
-      hideForm(overlay, formCreateCategory);
+      hideCategoryForm(overlay, formCreateCategory);
     }
   });
 }
@@ -50,17 +57,29 @@ export function displayCreateCategoryForm() {
 export function displayCreateTaskForm() {
   const form = document.getElementById('taskForm');
   const showFormButton = document.getElementById('showFormButton');
+  const mainContainer = document.querySelector('main');
 
-  showFormButton.addEventListener('click', function () {
+  showFormButton.addEventListener('click', function (event) {
+    event.stopPropagation();
     if (form.style.display === 'none' || form.style.display === '') {
-      form.style.display = 'block'; // Tampilkan form
+      form.style.display = 'block';
       setTimeout(() => {
         form.classList.remove('opacity-0', 'translate-y-5');
         form.classList.add('opacity-100', 'translate-y-0');
-      }, 10); // Tambahkan sedikit delay agar efek transisi bekerja
-    } else {
+      }, 10);
+    } else if (event.target === showFormButton) {
       closeInputTaskForm(form);
     }
+  });
+
+  document.addEventListener('click', function (event) {
+    if (!form.contains(event.target) && event.target !== showFormButton) {
+      closeInputTaskForm(form);
+    }
+  });
+
+  form.addEventListener('click', function (event) {
+    event.stopPropagation();
   });
 }
 

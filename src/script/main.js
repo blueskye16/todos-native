@@ -1,4 +1,4 @@
-import { getUiElement, sidebarHandler, displayCreateTaskForm, displayCreateCategoryForm, checkTaskContainer } from "./ui.js";
+import { sidebarHandler, displayCreateTaskForm, displayCreateCategoryForm, checkTaskContainer } from "./ui.js";
 import { addCategory } from "./categories.js";
 import { addTask, renderTasks } from "./tasks.js";
 
@@ -20,31 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
     addTask();
   });
 });
-
-/* function getUiElement() {
-  return {
-    // UI
-    sidebar: document.getElementById('sidebar'),
-    btnBurger: document.getElementById('btnBurger'),
-    doContainer: document.getElementById('do-container'),
-    scheduleContainer: document.getElementById('schedule-container'),
-  };
-} */
-
-
-
-// Category
-
-
-// Task
-
-
-
-
-// generate ID
-
-
-
 
 document.addEventListener(RENDER_EVENT, function () {
   console.log(tasks);

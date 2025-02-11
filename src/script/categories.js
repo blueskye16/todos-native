@@ -1,5 +1,6 @@
 // Category
 import generateId from "./utils/generate_id.js";
+import { getUiElement, hideCategoryForm } from "./ui.js";
 
 const categories = [{
   icon: '👨‍🎓',
@@ -8,6 +9,7 @@ const categories = [{
 }];
 
 function addCategory() {
+  const { formCreateCategory, overlay } = getUiElement();
   const title = document.getElementById('input-category-title');
   const icon = document.getElementById('input-category-icon');
 
@@ -21,6 +23,8 @@ function addCategory() {
   categories.push(categoryObject);
   console.log(categories);
   renderSubmittedCategory(categories);
+  hideCategoryForm(overlay, formCreateCategory);
+  updateCategoryToTask(categories);
 }
 
 function generateCategoryObject(id, title, icon) {
@@ -90,6 +94,19 @@ function makeCategory(categoryObject) {
   container.append(categoryIcon, categoryTitle, categoryTaskCount);
 
   return container;
+}
+
+function updateCategoryToTask(categories) {
+  const categoryContainer = document.getElementById('inputCategory');
+
+  categoryContainer.innerText = '';
+
+  for (const category of categories) {
+    const categoryTitle = document.createElement('option');
+    categoryTitle.value = category.title;
+    categoryTitle.innerText = category.icon + ' ' + category.title;
+    categoryContainer.append(categoryTitle);
+  }
 }
 
 export { addCategory, renderSubmittedCategory };
