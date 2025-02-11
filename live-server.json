@@ -1,0 +1,13 @@
+{
+  "port": 8080,
+  "host": "0.0.0.0",
+  "root": "./",
+  "open": true,
+  "ignore": "scss,my/templates",
+  "file": "/src/index.html",
+  "wait": 1000,
+  "mount": [
+    ["/components", "./node_modules"]
+  ],
+  "logLevel": 2
+}
