@@ -1,3 +1,6 @@
+> tailwind_cli = pas build loadingnya lama banget
+>   masalah di --watch ?
+
 error di terminal
 
 PS C:\laragon\www\vin-project\notes-native> npm run build:css
